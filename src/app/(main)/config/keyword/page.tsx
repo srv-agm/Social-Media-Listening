@@ -6,7 +6,7 @@ interface Keyword {
   value: string;
 }
 
-const KeywordInputScreen: React.FC = () => {
+export default function KeywordPage() {
   const [keywords, setKeywords] = useState<Keyword[]>([{ id: 1, value: "" }]);
 
   const addKeyword = () => {
@@ -14,7 +14,9 @@ const KeywordInputScreen: React.FC = () => {
   };
 
   const removeKeyword = (id: number) => {
-    setKeywords(keywords.filter((keyword) => keyword.id !== id));
+    if (keywords.length > 1) {
+      setKeywords(keywords.filter((keyword) => keyword.id !== id));
+    }
   };
 
   const handleInputChange = (id: number, value: string) => {
@@ -26,49 +28,48 @@ const KeywordInputScreen: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    console.log(
-      "Keywords:",
-      keywords.map((keyword) => keyword.value),
-    );
+    const values = keywords.map((keyword) => keyword.value);
+    console.log("Keywords:", values);
     // Add submit logic here
   };
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center space-y-4 p-4">
-      {keywords.map((keyword) => (
-        <div
-          key={keyword.id}
-          className="flex w-full items-center justify-center space-x-2"
+    <div className="container mx-auto p-4">
+      <div className="flex flex-col space-y-4">
+        {keywords.map((keyword) => (
+          <div key={keyword.id} className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={addKeyword}
+              className="rounded-md bg-blue-500 px-3 py-1 text-white hover:bg-blue-600"
+            >
+              +
+            </button>
+            <button
+              type="button"
+              onClick={() => removeKeyword(keyword.id)}
+              className="rounded-md bg-red-500 px-3 py-1 text-white hover:bg-red-600"
+              disabled={keywords.length === 1}
+            >
+              -
+            </button>
+            <input
+              type="text"
+              value={keyword.value}
+              onChange={(e) => handleInputChange(keyword.id, e.target.value)}
+              className="flex-1 rounded-md border border-gray-300 px-3 py-1 focus:border-blue-500 focus:outline-none"
+              placeholder="Enter keyword"
+            />
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={handleSubmit}
+          className="mt-4 rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
         >
-          <button
-            onClick={addKeyword}
-            className="rounded bg-gray-200 px-2 py-1 text-lg font-bold"
-          >
-            +
-          </button>
-          <button
-            onClick={() => removeKeyword(keyword.id)}
-            className="rounded bg-gray-200 px-2 py-1 text-lg font-bold"
-          >
-            -
-          </button>
-          <input
-            type="text"
-            placeholder="Enter Keyword"
-            value={keyword.value}
-            onChange={(e) => handleInputChange(keyword.id, e.target.value)}
-            className="w-[50%] text-center rounded border px-2 py-1"
-          />
-        </div>
-      ))}
-      <button
-        onClick={handleSubmit}
-        className="rounded bg-black px-4 py-2 text-white"
-      >
-        Submit
-      </button>
+          Submit
+        </button>
+      </div>
     </div>
   );
-};
-
-export default KeywordInputScreen;
+}
