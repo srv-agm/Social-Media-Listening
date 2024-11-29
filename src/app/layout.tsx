@@ -18,8 +18,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Unified Ad Manager",
-  description: "Unified Ad Manager",
+  title: "Social Media Listening",
+  description: "Social Media Listening",
 };
 
 export const viewport: Viewport = {
