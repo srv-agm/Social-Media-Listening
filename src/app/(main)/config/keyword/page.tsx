@@ -94,7 +94,7 @@ export default function KeywordPage() {
         <button
           type="button"
           onClick={handleSubmit}
-          className="mt-4 rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600 disabled:opacity-50"
+          className="mt-4 rounded-md bg-purple-500 px-4 py-2 text-white hover:bg-green-600 disabled:opacity-50"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Submitting..." : "Submit"}
