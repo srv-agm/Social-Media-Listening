@@ -8,13 +8,13 @@ export function cn(...inputs: ClassValue[]) {
 
 export const session = {
   set: (k: string, d: object) => {
-    const b = Buffer.from(JSON.stringify(d));
+    const b = Buffer?.from(JSON.stringify(d));
     sessionStorage.setItem(k, b.toString("base64"));
   },
   get: (k: string) => {
     const b = sessionStorage.getItem(k);
     if (!b) return {};
-    return JSON.parse(Buffer.from(b ?? "", "base64").toString() ?? "{}");
+    return JSON.parse(Buffer?.from(b ?? "", "base64").toString() ?? "{}");
   },
 };
 

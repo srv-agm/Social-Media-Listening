@@ -25,7 +25,7 @@ const FormCard = () => {
     // Normal login
     else if (res.data?.auth_response?.AuthenticationResult?.AccessToken) {
       //   TODO: Fetch menu redirect route
-      router.push("/unified-ad-manager/campaign");
+      router.push("/config/keyword");
       sessionStorage.setItem(
         "AccessToken",
         res.data?.auth_response?.AuthenticationResult?.AccessToken,
@@ -39,7 +39,7 @@ const FormCard = () => {
     const AccessToken =
       d?.data?.auth_response?.AuthenticationResult?.AccessToken;
     if (AccessToken) {
-      router.push("/unified-ad-manager/campaign");
+      router.push("/config/keyword");
       sessionStorage.setItem("AccessToken", AccessToken);
       sessionStorage.removeItem("username");
     }
@@ -51,10 +51,23 @@ const FormCard = () => {
 
   const MFAVerify = useMFAVerify(onMFAVerifyError, onMFAVerifySuccess);
 
-  const handleSubmit = useCallback((body: LoginBodyType) => {
-    sessionStorage.setItem("username", body.username);
-    if (!loginFn.isLoading) loginFn.mutate({ body });
-  }, []);
+  const handleSubmit = useCallback(
+    (body: LoginBodyType) => {
+      const hardcodedUsername = "admin@mfilterit.com";
+      const hardcodedPassword = "admin@123";
+
+      if (
+        body.username === hardcodedUsername &&
+        body.password === hardcodedPassword
+      ) {
+        sessionStorage.setItem("AccessToken", "dummy-token"); // Simulate an access token
+        router.push("/config/keyword"); // Navigate to the dashboard
+      } else {
+        toast({ title: "Invalid credentials", variant: "destructive" });
+      }
+    },
+    [router],
+  );
 
   const handleOTPSubmit = (otp: string) => {
     const body: MFAVerifyBodyType = {
@@ -97,30 +110,28 @@ const LoginFormCard: React.FC<{
   onSubmit: (data: LoginBodyType) => void;
 }> = ({ onSubmit, errorMessage, buttonText }) => {
   return (
-    <>
-      <LoginForm
-        beforeForm={<h2 className="text-center text-header">Login</h2>}
-        buttonText={buttonText}
-        onSubmit={onSubmit}
-        errorMessage={errorMessage}
-        afterForm={
-          <div className="mt-4 flex flex-col items-center space-y-2 text-sm">
-            <Link href="/forgot-password">
+    <LoginForm
+      beforeForm={<h2 className="text-center text-header">Login</h2>}
+      buttonText={buttonText}
+      onSubmit={onSubmit}
+      errorMessage={errorMessage}
+      afterForm={
+        <div className="mt-4 flex flex-col items-center space-y-2 text-sm">
+          <Link href="/forgot-password">
+            <Button variant="link" size="sm" className="m-0 h-fit p-0">
+              Forgot Password
+            </Button>
+          </Link>
+          <div className="flex items-center space-x-2">
+            <span>Don&apos;t have an account?</span>
+            <Link href="/sign-up" replace>
               <Button variant="link" size="sm" className="m-0 h-fit p-0">
-                Forgot Password
+                Sign Up
               </Button>
             </Link>
-            <div className="flex items-center space-x-2">
-              <span>Don&apos;t have an account?</span>
-              <Link href="/sign-up" replace>
-                <Button variant="link" size="sm" className="m-0 h-fit p-0">
-                  Sign Up
-                </Button>
-              </Link>
-            </div>
           </div>
-        }
-      />
-    </>
+        </div>
+      }
+    />
   );
 };

@@ -47,103 +47,103 @@ const menu: MenuItem[] = [
   //   ],
   // },
   {
-    title: "Unified Ad Manager",
+    title: "Social Media Listening",
     icon: <Globe size={18} />,
     subMenu: [
       {
-        title: "Campaign Creation",
+        title: "Keyword",
         icon: "",
         subMenu: [],
-        route: "/unified-ad-manager/campaign",
-      },
-      {
-        title: "Campaign Optimisation",
-        icon: "",
-        subMenu: [],
-        route: "/unified-ad-manager/optimisation",
-      },
-      {
-        title: "Insights And Performance",
-        icon: "",
-        subMenu: [
-          {
-            title: "Campaign Overview",
-            icon: "",
-            subMenu: [],
-            route:
-              "/unified-ad-manager/insights-and-performance/campaign-overview",
-          },
-          {
-            title: "Ad Group Overview",
-            icon: "",
-            subMenu: [],
-            route:
-              "/unified-ad-manager/insights-and-performance/ad-group-overview",
-          },
-          {
-            title: "Keyword Overview",
-            icon: "",
-            subMenu: [],
-            route:
-              "/unified-ad-manager/insights-and-performance/keyword-overview",
-          },
-          {
-            title: "Product Overview",
-            icon: "",
-            subMenu: [],
-            route:
-              "/unified-ad-manager/insights-and-performance/product-overview",
-          },
-        ],
+        route: "/config/keyword",
       },
       // {
-      //   title: "Campaign Analytics",
+      //   title: "Campaign Optimisation",
       //   icon: "",
       //   subMenu: [],
-      //   route: "/unified-ad-manager/CampaignAnalytics",
+      //   route: "/unified-ad-manager/optimisation",
       // },
-      {
-        title: "ECOM Analysis",
-        icon: "",
-        subMenu: [
-          {
-            title: "Keyword Analysis",
-            icon: "",
-            subMenu: [],
-            route: "/unified-ad-manager/CampaignAnalytics",
-          },
-          {
-            title: "Ecom Signals",
-            icon: "",
-            subMenu: [],
-            route: "/unified-ad-manager/EcomSignals",
-          },
-        ],
-      },
+      // {
+      //   title: "Insights And Performance",
+      //   icon: "",
+      //   subMenu: [
+      //     {
+      //       title: "Campaign Overview",
+      //       icon: "",
+      //       subMenu: [],
+      //       route:
+      //         "/unified-ad-manager/insights-and-performance/campaign-overview",
+      //     },
+      //     {
+      //       title: "Ad Group Overview",
+      //       icon: "",
+      //       subMenu: [],
+      //       route:
+      //         "/unified-ad-manager/insights-and-performance/ad-group-overview",
+      //     },
+      //     {
+      //       title: "Keyword Overview",
+      //       icon: "",
+      //       subMenu: [],
+      //       route:
+      //         "/unified-ad-manager/insights-and-performance/keyword-overview",
+      //     },
+      //     {
+      //       title: "Product Overview",
+      //       icon: "",
+      //       subMenu: [],
+      //       route:
+      //         "/unified-ad-manager/insights-and-performance/product-overview",
+      //     },
+      //   ],
+      // },
+      // // {
+      // //   title: "Campaign Analytics",
+      // //   icon: "",
+      // //   subMenu: [],
+      // //   route: "/unified-ad-manager/CampaignAnalytics",
+      // // },
+      // {
+      //   title: "ECOM Analysis",
+      //   icon: "",
+      //   subMenu: [
+      //     {
+      //       title: "Keyword Analysis",
+      //       icon: "",
+      //       subMenu: [],
+      //       route: "/unified-ad-manager/CampaignAnalytics",
+      //     },
+      //     {
+      //       title: "Ecom Signals",
+      //       icon: "",
+      //       subMenu: [],
+      //       route: "/unified-ad-manager/EcomSignals",
+      //     },
+      //   ],
+      // },
+      // // {
+      // //   title: "Rule Engine",
+      // //   icon: "",
+      // //   subMenu: [],
+      // //   route: "/unified-ad-manager/rule-engine",
+      // // },
       // {
       //   title: "Rule Engine",
       //   icon: "",
-      //   subMenu: [],
-      //   route: "/unified-ad-manager/rule-engine",
+      //   subMenu: [
+      //     {
+      //       title: "Rules",
+      //       icon: "",
+      //       subMenu: [],
+      //       route: "/unified-ad-manager/rule-engine",
+      //     },
+      //     {
+      //       title: "Workflow",
+      //       icon: "",
+      //       subMenu: [],
+      //       route: "/unified-ad-manager/workflow",
+      //     },
+      //   ],
       // },
-      {
-        title: "Rule Engine",
-        icon: "",
-        subMenu: [
-          {
-            title: "Rules",
-            icon: "",
-            subMenu: [],
-            route: "/unified-ad-manager/rule-engine",
-          },
-          {
-            title: "Workflow",
-            icon: "",
-            subMenu: [],
-            route: "/unified-ad-manager/workflow",
-          },
-        ],
-      },
     ],
   },
 ];

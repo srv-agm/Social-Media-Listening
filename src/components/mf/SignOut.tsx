@@ -18,10 +18,11 @@ const SignOutButton = () => {
 
   const SignOut = useSignOut(onError, onSuccess);
   const onClick = () => {
-    const body: SignOutBodyType = {
-      access_token: sessionStorage.getItem("AccessToken") ?? "",
-    };
-    SignOut.mutate({ body });
+    // const body: SignOutBodyType = {
+    //   access_token: sessionStorage.getItem("AccessToken") ?? "",
+    // };
+    // SignOut.mutate({ body });
+    router.replace("/");
   };
   return (
     <Button

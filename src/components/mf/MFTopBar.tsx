@@ -15,7 +15,7 @@ import { MFSingleSelect } from "./MFSingleSelect";
 import { MFDateRangePicker } from "./MFDateRangePicker";
 import SignOutButton from "./SignOut";
 import { usePathname } from "next/navigation";
-import { getToken } from "@/lib/token";
+// import { getToken } from "@/lib/token";
 import { useEffect, useState } from "react";
 
 type MFTopBarType = {
@@ -68,10 +68,10 @@ export function MFTopBar({ isExpanded, onToggle }: MFTopBarType) {
 function UserPopUp() {
   const [Uname, setUname] = useState("");
 
-  useEffect(() => {
-    const { username } = getToken();
-    setUname(username);
-  }, []);
+  // useEffect(() => {
+  //   const { username } = getToken();
+  //   setUname(username);
+  // }, []);
 
   return (
     <Popover>
@@ -88,8 +88,8 @@ function UserPopUp() {
       <PopoverContent className="mr-4 w-fit overflow-clip p-0">
         <div className="flex flex-col">
           <div className="bg-slate-200 p-4 dark:bg-slate-700">
-            <p className="text-header">{Uname}</p>
-            <p className="text-body">mail@mfilterit.com</p>
+            <p className="text-header">Admin</p>
+            <p className="text-body">Admin@mfilterit.com</p>
           </div>
           <ul className="flex justify-between gap-2 px-4 py-2">
             <li>
