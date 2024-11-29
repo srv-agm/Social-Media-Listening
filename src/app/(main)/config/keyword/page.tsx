@@ -34,11 +34,11 @@ const KeywordInputScreen: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-4 p-4">
+    <div className="flex h-screen flex-col items-center justify-center space-y-4 p-4">
       {keywords.map((keyword) => (
         <div
           key={keyword.id}
-          className="flex items-center space-x-2 border-b pb-2"
+          className="flex w-full items-center justify-center space-x-2"
         >
           <button
             onClick={addKeyword}
@@ -57,7 +57,7 @@ const KeywordInputScreen: React.FC = () => {
             placeholder="Enter Keyword"
             value={keyword.value}
             onChange={(e) => handleInputChange(keyword.id, e.target.value)}
-            className="w-full rounded border px-2 py-1"
+            className="w-[50%] text-center rounded border px-2 py-1"
           />
         </div>
       ))}
