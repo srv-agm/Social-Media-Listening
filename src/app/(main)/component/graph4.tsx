@@ -69,7 +69,7 @@ const TotalBrandMentions: React.FC<TotalBrandMentionsProps> = ({
 
   return (
     <div className="total-brand-mentions">
-      <h2>Total Brand Mentions</h2>
+      <h2>Brand Mentions</h2>
       <p>{totalMentions}</p>
       <p>+{growthPercentage}% from last week</p>
       <Line data={lineChartData} options={options} />

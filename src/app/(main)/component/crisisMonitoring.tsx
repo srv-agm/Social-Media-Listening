@@ -1,36 +1,58 @@
-import React from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-interface CrisisMonitoringChartProps {
-  data: { day: string; mentions: number }[];
+interface CrisisData {
+  day: string;
+  mentions: string | number;
 }
 
-const CrisisMonitoringChart: React.FC<CrisisMonitoringChartProps> = ({ data }) => {
-  const labels = data.map((item) => item.day);
+interface Props {
+  data: CrisisData[];
+}
 
+const CrisisMonitoringChart = ({ data }: Props) => {
   const chartData = {
-    labels,
+    labels: data.map((item) => item.day),
     datasets: [
       {
-        label: 'Mentions',
-        data: data.map((item) => item.mentions),
-        backgroundColor: '#8e91f5', // Purple color
+        label: "Negative Mentions",
+        data: data.map((item) => Number(item.mentions)),
+        fill: false,
+        borderColor: "rgb(255, 99, 132)",
+        tension: 0.1,
       },
     ],
   };
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'bottom' as const,
+        position: "top" as const,
       },
       title: {
         display: true,
-        text: 'Crisis Monitoring',
+        text: "Crisis Monitoring",
       },
     },
     scales: {
@@ -40,7 +62,7 @@ const CrisisMonitoringChart: React.FC<CrisisMonitoringChartProps> = ({ data }) =
     },
   };
 
-  return <Bar data={chartData} options={options} />;
+  return <Line options={options} data={chartData} />;
 };
 
 export default CrisisMonitoringChart;

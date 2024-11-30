@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 // import SyncedChartTable from "../../component/productspecific";
 import DailyMentionsTrend from "../../component/DailyMentionsTrend";
 import CrisisMonitoringChart from "../../component/crisisMonitoring";
+import { InfoIcon } from "lucide-react";
 
 // Dynamically import HeatmapWithPopup with ssr disabled
 const HeatmapWithPopup = dynamic(() => import("../../component/heatmap"), {
@@ -20,6 +21,25 @@ const sentimentData = {
   positive: [10, 20, 30, 40, 50, 60, 70],
   neutral: [5, 15, 25, 35, 45, 55, 65],
   negative: [2, 12, 22, 32, 42, 52, 62],
+};
+
+const InfoTooltip = ({ text }: { text: string }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
+    >
+      <InfoIcon className="h-5 w-5 cursor-help text-gray-400" />
+      {isVisible && (
+        <div className="absolute right-0 top-6 z-50 w-64 rounded-md bg-gray-800 p-2 text-sm text-white shadow-lg">
+          {text}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default function DashboardPage() {
@@ -71,6 +91,18 @@ export default function DashboardPage() {
     mentions: [],
     platforms: [],
   });
+
+  // Add new state for product category data
+  const [productCategoryData, setProductCategoryData] = useState([]);
+
+  // Add new state for chart data
+  const [chartData, setChartData] = useState({
+    datasets: [],
+    labels: []
+  });
+
+  // Add new state for crisis data
+  const [crisisData, setCrisisData] = useState([]);
 
   useEffect(() => {
     // Get stored values
@@ -185,59 +217,151 @@ export default function DashboardPage() {
       }
     };
 
-    // Fetch all data
+    const fetchProductCategoryData = async () => {
+      try {
+        const response = await fetch(
+          "https://socialdots-api.mfilterit.net/api/post_category",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              brand: brandKeyword.brand,
+              keyword: brandKeyword.keyword,
+            }),
+          },
+        );
+
+        const data = await response.json();
+        setProductCategoryData(data.data);
+      } catch (error) {
+        console.error("Error fetching product category data:", error);
+      }
+    };
+
+    const fetchChartData = async () => {
+      try {
+        const response = await fetch(
+          "https://socialdots-api.mfilterit.net/api/chart_data",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              brand: brandKeyword.brand,
+              keyword: brandKeyword.keyword,
+            }),
+          }
+        );
+
+        const data = await response.json();
+        setChartData(data);
+      } catch (error) {
+        console.error("Error fetching chart data:", error);
+      }
+    };
+
+    const fetchCrisisData = async () => {
+      try {
+        const response = await fetch(
+          "https://socialdots-api.mfilterit.net/api/negative_mentions",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              brand: brandKeyword.brand,
+              keyword: brandKeyword.keyword,
+            }),
+          }
+        );
+
+        const data = await response.json();
+        setCrisisData(data.data);
+      } catch (error) {
+        console.error("Error fetching crisis data:", error);
+      }
+    };
+
+    // Update Promise.all to include new fetch
     Promise.all([
       fetchMentionsData(),
       fetchSentimentData(),
       fetchSentimentTrendData(),
       fetchPlatformMentions(),
+      fetchProductCategoryData(),
+      fetchChartData(),
+      fetchCrisisData(),
     ]);
-  }, [brandKeyword]); // Dependency on brandKeyword
+  }, [brandKeyword]);
 
   return (
     <div className="container mt-4">
       {/* First row with 3 graphs */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+      <div className="mb-10 grid grid-cols-3 gap-4">
+        <div className="relative h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+          <div className="absolute right-2 top-2">
+            <InfoTooltip text="Total number of times the brand is mentioned online" />
+          </div>
           <TotalBrandMentions
             totalMentions={parseInt(mentionsData.totalMentions)}
             growthPercentage={mentionsData.growthPercentage}
             dailyMentionsData={mentionsData.dailyMentionsData.map(Number)}
           />
         </div>
-        <div className="flex h-[400px] w-full items-center justify-center rounded-lg bg-white p-4 shadow-sm">
+        <div className="relative flex h-[400px] w-full items-center justify-center rounded-lg bg-white p-4 shadow-sm">
+          <div className="absolute right-2 top-2">
+            <InfoTooltip text="Percentage of positive, negative, and neutral mentions" />
+          </div>
           <PieChart sentimentData={sentimentData} />
         </div>
-        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+        <div className="relative h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+          <div className="absolute right-2 top-2">
+            <InfoTooltip text="Daily shifts in positive, negative, and neutral sentiments" />
+          </div>
           <OverallSentimentTrends sentimentData={sentimentTrendData} />
         </div>
       </div>
-      <hr />
-      <hr />
-      <hr />
-      <hr />
-      <div className="grid grid-cols-2 gap-4">
-        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+
+      {/* Second row with 2 graphs */}
+      <div className="mb-10 grid grid-cols-2 gap-4">
+        <div className="relative h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+          <div className="absolute right-2 top-2">
+            <InfoTooltip text="Breakdown of mentions across social media platforms" />
+          </div>
           <MentionsByPlatform platformData={platformData} />
         </div>
-        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
-          <DailyMentionsTrend />
+        <div className="relative h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+          <div className="absolute right-2 top-2">
+            <InfoTooltip text="Day-wise trends in brand mentions" />
+          </div>
+          <DailyMentionsTrend data={chartData} />
         </div>
       </div>
-      <hr />
-      <hr />
-      <hr />
-      <hr />
-      <div className="grid grid-cols-2 gap-4">
-        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+      <div className="mb-10 grid grid-cols-2 gap-4">
+        <div className="relative h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+          <div className="absolute right-2 top-2">
+            <InfoTooltip text="Group posts into categories like reviews or complaints" />
+          </div>
+          <ProductMentionsChart data={productCategoryData} />
+        </div>
+        <div className="relative h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+          <div className="absolute right-2 top-2">
+            <InfoTooltip text="Watches for repeated keywords that might indicate a problem" />
+          </div>
+          <CrisisMonitoringChart data={crisisData} />
+        </div>
+      </div>
+      <div className="mb-10 w-full">
+        <div className="relative h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+          <div className="absolute right-2 top-2">
+            <InfoTooltip text="Areas where the brand is getting the most attention" />
+          </div>
           <HeatmapWithPopup />
         </div>
-      </div>
-      <div className="map-container h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
-        <ProductMentionsChart data={data} />
-      </div>
-      <div className="map-container h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
-        <CrisisMonitoringChart data={dataCrisis} />
       </div>
     </div>
   );

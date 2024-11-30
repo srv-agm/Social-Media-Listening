@@ -13,69 +13,53 @@ import {
 // Register necessary chart.js components
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
 
-const DailyMentionsTrend: React.FC = () => {
-  // Hardcoded data
-  const data = {
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], // X-axis labels
-    datasets: [
-      {
-        label: "twitter",
-        data: [2500, 2000, 3000, 3500, 4000, 4500, 5000], // Data for Twitter
-        borderColor: "rgba(75, 192, 192, 1)", // Line color
-        backgroundColor: "rgba(75, 192, 192, 0.2)", // Fill color
-        borderWidth: 2,
-        tension: 0.4, // Smooth curve
-        fill: true, // Fill the area under the curve
-      },
-      {
-        label: "instagram",
-        data: [2000, 1500, 10000, 5000, 4000, 3500, 4500], // Data for Instagram
-        borderColor: "rgba(54, 162, 235, 1)", // Line color
-        backgroundColor: "rgba(54, 162, 235, 0.2)", // Fill color
-        borderWidth: 2,
-        tension: 0.4, // Smooth curve
-        fill: true, // Fill the area under the curve
-      },
-    ],
-  };
+interface ChartData {
+  datasets: {
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+    data: (string | number)[];
+    fill: boolean;
+    label: string;
+    tension: number;
+  }[];
+  labels: string[];
+}
 
-  // Chart options
+interface Props {
+  data: ChartData;
+}
+
+const DailyMentionsTrend = ({ data }: Props) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: true,
-        position: "top", // Position of the legend
-        labels: {
-          usePointStyle: true, // Make the legend use point styles
-        },
+        position: "top" as const,
       },
-      tooltip: {
-        enabled: true, // Enable tooltips
+      title: {
+        display: true,
+        text: "Daily Mentions Trend",
       },
     },
     scales: {
-      x: {
-        grid: {
-          display: false, // Hide gridlines on X-axis
-        },
-      },
       y: {
-        beginAtZero: true, // Start Y-axis at 0
-        ticks: {
-          stepSize: 2500, // Interval between Y-axis ticks
-        },
+        beginAtZero: true,
       },
     },
   };
 
-  return (
-    <div style={{ width: "100%", height: "300px" }}>
-      <h3 style={{ marginBottom: "10px", fontSize: "18px", fontWeight: "bold" }}>Daily Mentions Trend</h3>
-      <Line data={data} options={options} />
-    </div>
-  );
+  // Convert string data to numbers
+  const chartData = {
+    ...data,
+    datasets: data.datasets.map(dataset => ({
+      ...dataset,
+      data: dataset.data.map(value => Number(value))
+    }))
+  };
+
+  return <Line options={options} data={chartData} />;
 };
 
 export default DailyMentionsTrend;

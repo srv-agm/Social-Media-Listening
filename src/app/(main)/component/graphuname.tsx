@@ -55,7 +55,7 @@ const TotalBrandMentions: React.FC<TotalBrandMentionsProps> = ({
 
   return (
     <div style={{ width: "100%", height: "300px" }}>
-      <h3 style={{ textAlign: "left" }}>Total Brand Mentions</h3>
+      <h3 style={{ textAlign: "left" }}>Brand Mentions</h3>
       <h2 style={{ margin: "0 0 10px", fontSize: "24px", color: "#444" }}>
         {totalMentions.toLocaleString()}
       </h2>
