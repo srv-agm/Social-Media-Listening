@@ -15,18 +15,6 @@ export default function KeywordPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const addRow = () => {
-    setRows([...rows, { id: Date.now(), keyword: "", brand: "" }]);
-    setError(null);
-  };
-
-  const removeRow = (id: number) => {
-    if (rows.length > 1) {
-      setRows(rows.filter((row) => row.id !== id));
-      setError(null);
-    }
-  };
-
   const handleInputChange = (id: number, field: 'keyword' | 'brand', value: string) => {
     setRows(
       rows.map((row) =>
@@ -46,6 +34,13 @@ export default function KeywordPage() {
       if (emptyFields) {
         throw new Error("Please fill in all fields");
       }
+
+      // Since we only want one row now, take the first row
+      const firstRow = rows[0];
+      
+      // Store in localStorage
+      localStorage.setItem('selectedBrand', firstRow.brand.trim());
+      localStorage.setItem('selectedKeyword', firstRow.keyword.trim());
 
       // Format the payload as per API requirements
       const payload = rows.map(row => ({
@@ -68,8 +63,8 @@ export default function KeywordPage() {
       const data = await response.json();
       toast.success('Configuration saved successfully');
       
-      // Clear the form after successful submission
-      setRows([{ id: Date.now(), keyword: "", brand: "" }]);
+      // Redirect to dashboard after successful save
+      window.location.href = '/config/dashboard';
       
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An error occurred";
@@ -86,8 +81,7 @@ export default function KeywordPage() {
       
       <div className="mb-8">
         {/* Header */}
-        <div className="mb-4 grid grid-cols-[auto_1fr_1fr] gap-4 items-center">
-          <div className="w-20"></div>
+        <div className="mb-4 grid grid-cols-2 gap-4 items-center">
           <h2 className="text-xl font-semibold">Keyword</h2>
           <h2 className="text-xl font-semibold">Brand</h2>
         </div>
@@ -95,25 +89,7 @@ export default function KeywordPage() {
         {/* Rows */}
         <div className="flex flex-col space-y-4">
           {rows.map((row) => (
-            <div key={row.id} className="grid grid-cols-[auto_1fr_1fr] gap-4 items-center">
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={addRow}
-                  className="rounded-md bg-blue-500 px-3 py-1 text-white hover:bg-blue-600 disabled:opacity-50"
-                  disabled={isSubmitting}
-                >
-                  +
-                </button>
-                <button
-                  type="button"
-                  onClick={() => removeRow(row.id)}
-                  className="rounded-md bg-red-500 px-3 py-1 text-white hover:bg-red-600 disabled:opacity-50"
-                  disabled={rows.length === 1 || isSubmitting}
-                >
-                  -
-                </button>
-              </div>
+            <div key={row.id} className="grid grid-cols-2 gap-4 items-center">
               <input
                 type="text"
                 value={row.keyword}

@@ -5,37 +5,35 @@ import { Line } from 'react-chartjs-2';
 // Register components
 ChartJS.register(LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip, Legend);
 
-interface SentimentData {
-  positive: number[];
-  neutral: number[];
-  negative: number[];
+interface SentimentTrendProps {
+  sentimentData: {
+    negative: number[];
+    neutral: number[];
+    positive: number[];
+  };
 }
 
-interface OverallSentimentTrendsProps {
-  sentimentData: SentimentData;
-}
-
-const OverallSentimentTrends: React.FC<OverallSentimentTrendsProps> = ({ sentimentData }) => {
-  const lineChartData = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+const OverallSentimentTrends: React.FC<SentimentTrendProps> = ({ sentimentData }) => {
+  const data = {
+    labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
     datasets: [
       {
         label: 'Positive',
         data: sentimentData.positive,
-        borderColor: 'rgba(102, 51, 153, 1)',
-        backgroundColor: 'rgba(102, 51, 153, 0.2)',
+        borderColor: '#007bff',
+        backgroundColor: 'rgba(0, 123, 255, 0.5)',
       },
       {
         label: 'Neutral',
         data: sentimentData.neutral,
-        borderColor: 'rgba(75, 192, 192, 1)',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: '#00c49f',
+        backgroundColor: 'rgba(0, 196, 159, 0.5)',
       },
       {
         label: 'Negative',
         data: sentimentData.negative,
-        borderColor: 'rgba(255, 159, 64, 1)',
-        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+        borderColor: '#ffcc00',
+        backgroundColor: 'rgba(255, 204, 0, 0.5)',
       },
     ],
   };
@@ -43,7 +41,7 @@ const OverallSentimentTrends: React.FC<OverallSentimentTrendsProps> = ({ sentime
   return (
     <div className="overall-sentiment-trends">
       <h2>Overall Sentiment Trends</h2>
-      <Line data={lineChartData} />
+      <Line data={data} />
     </div>
   );
 };

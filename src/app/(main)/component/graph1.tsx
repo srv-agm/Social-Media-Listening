@@ -5,74 +5,63 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
+  Title,
   Tooltip,
   Legend,
 } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-const MentionsByPlatformBar: React.FC = () => {
-  const barChartData = {
-    labels: ['Twitter', 'Facebook', 'Instagram', 'LinkedIn', 'TikTok'], // Labels for X-axis
+interface MentionsByPlatformProps {
+  platformData: {
+    mentions: number[];
+    platforms: string[];
+  };
+}
+
+const MentionsByPlatform: React.FC<MentionsByPlatformProps> = ({ platformData }) => {
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Mentions by Platform',
+      },
+    },
+  };
+
+  const data = {
+    labels: platformData.platforms,
     datasets: [
       {
         label: 'Mentions',
-        data: [10, 20, 30, 15, 5], // Values for each platform
+        data: platformData.mentions,
         backgroundColor: [
-          'rgba(102, 51, 153, 0.6)',
-          'rgba(54, 162, 235, 0.6)',
-          'rgba(255, 206, 86, 0.6)',
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(153, 102, 255, 0.6)',
+          'rgba(255, 99, 132, 0.5)',
+          'rgba(54, 162, 235, 0.5)',
+          'rgba(75, 192, 192, 0.5)',
         ],
         borderColor: [
-          'rgba(102, 51, 153, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(75, 192, 192)',
         ],
         borderWidth: 1,
       },
     ],
   };
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top' as const, // Legend position
-      },
-      tooltip: {
-        enabled: true,
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false, // Hides gridlines for X-axis
-        },
-        title: {
-          display: true,
-          text: 'Platforms',
-        },
-      },
-      y: {
-        beginAtZero: true, // Y-axis starts at zero
-        title: {
-          display: true,
-          text: 'Mentions Count',
-        },
-      },
-    },
-  };
-
-  return (
-    <div className="mentions-by-platform-bar">
-      <h2>Mentions by Platform</h2>
-      <Bar data={barChartData} options={options} />
-    </div>
-  );
+  return <Bar options={options} data={data} />;
 };
 
-export default MentionsByPlatformBar;
+export default MentionsByPlatform;

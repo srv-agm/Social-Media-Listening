@@ -11,14 +11,26 @@ import {
 // Register required elements for Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const PieChart: React.FC = () => {
-    // Hardcoded data for the pie chart
+// Add type for the props
+interface PieChartProps {
+    sentimentData: {
+        positive: number;
+        negative: number;
+        neutral: number;
+    };
+}
+
+const PieChart: React.FC<PieChartProps> = ({ sentimentData }) => {
     const data = {
         labels: ['Positive', 'Negative', 'Neutral'],
         datasets: [
             {
                 label: 'Sentiment Analysis',
-                data: [40, 35, 25], // Adjust these values to fit your data
+                data: [
+                    sentimentData.positive,
+                    sentimentData.negative,
+                    sentimentData.neutral
+                ],
                 backgroundColor: [
                     '#007bff', // Blue
                     '#ffcc00', // Yellow
