@@ -19,6 +19,7 @@ const dailyMentionsData = [3000, 2000, 1000, 1500, 2000, 3500, 4000];
 export default function DashboardPage() {
   return (
     <div className="container mt-4">
+<<<<<<< Updated upstream
       {/* <h1 className="mb-4 text-center text-3xl font-bold">Dashboard</h1> */}
       <div className="col-md-6">
         <TotalBrandMentions
@@ -26,6 +27,53 @@ export default function DashboardPage() {
           growthPercentage={growthPercentage}
           dailyMentionsData={dailyMentionsData}
         />
+=======
+      {/* First row with 3 graphs */}
+      <div className="grid grid-cols-3 gap-4">
+        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+          <TotalBrandMentions
+            totalMentions={totalMentions}
+            growthPercentage={growthPercentage}
+            dailyMentionsData={dailyMentionsData}
+          />
+        </div>
+        <div className="flex h-[400px] w-full items-center justify-center rounded-lg bg-white p-4 shadow-sm">
+          <PieChart />
+        </div>
+        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+          <OverallSentimentTrends sentimentData={sentimentData} />
+        </div>
+      </div>
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <div className="grid grid-cols-2 gap-4">
+        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+          <MentionsByPlatform />
+        </div>
+        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+          <DailyMentionsTrend />
+        </div>
+      </div>
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <div className="grid grid-cols-2 gap-4">
+        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+          {/* <MentionsByPlatform /> */}
+          <HeatmapWithPopup />
+        </div>
+        {/* <div className="w-full h-[400px] bg-white rounded-lg shadow-sm p-4">
+          <DailyMentionsTrend />
+        </div> */}
+      </div>
+      <div className="map-container h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+        {/* <MentionsByPlatform /> */}
+        {/* <ProductSpecificMentions /> */}
+        <SyncedChartTable />
+>>>>>>> Stashed changes
       </div>
 
 
