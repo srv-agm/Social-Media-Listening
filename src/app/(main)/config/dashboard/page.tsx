@@ -4,9 +4,15 @@ import MentionsByPlatform from "../../component/graph1";
 import OverallSentimentTrends from "../../component/graph2";
 import TotalBrandMentions from "../../component/graph4";
 import PieChart from "../../component/overall";
-import HeatmapWithPopup from "../../component/heatmap";
+import dynamic from 'next/dynamic';
 import SyncedChartTable from "../../component/productspecific";
 import DailyMentionsTrend from "../../component/DailyMentionsTrend";
+
+// Dynamically import HeatmapWithPopup with ssr disabled
+const HeatmapWithPopup = dynamic(
+  () => import('../../component/heatmap'),
+  { ssr: false }
+);
 
 // const platformData = [50, 75, 100, 25, 60];
 const sentimentData = {
