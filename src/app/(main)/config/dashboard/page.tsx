@@ -5,11 +5,9 @@ import TotalBrandMentions from "../../component/graph4";
 import PieChart from "../../component/overall";
 import HeatmapWithPopup from "../../component/heatmap";
 import SyncedChartTable from "../../component/productspecific";
-import ProductSpecificMentions from "../../component/graph3";
-import ProductData from "../../component/graph3";
 import DailyMentionsTrend from "../../component/DailyMentionsTrend";
 
-const platformData = [50, 75, 100, 25, 60];
+// const platformData = [50, 75, 100, 25, 60];
 const sentimentData = {
   positive: [10, 20, 30, 40, 50, 60, 70],
   neutral: [5, 15, 25, 35, 45, 55, 65],
@@ -25,17 +23,17 @@ export default function DashboardPage() {
     <div className="container mt-4">
       {/* First row with 3 graphs */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="w-full h-[400px] bg-white rounded-lg shadow-sm p-4">
+        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
           <TotalBrandMentions
             totalMentions={totalMentions}
             growthPercentage={growthPercentage}
             dailyMentionsData={dailyMentionsData}
           />
         </div>
-        <div className="w-full h-[400px] bg-white rounded-lg shadow-sm p-4 flex items-center justify-center">
+        <div className="flex h-[400px] w-full items-center justify-center rounded-lg bg-white p-4 shadow-sm">
           <PieChart />
         </div>
-        <div className="w-full h-[400px] bg-white rounded-lg shadow-sm p-4">
+        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
           <OverallSentimentTrends sentimentData={sentimentData} />
         </div>
       </div>
@@ -44,10 +42,10 @@ export default function DashboardPage() {
       <hr />
       <hr />
       <div className="grid grid-cols-2 gap-4">
-        <div className="w-full h-[400px] bg-white rounded-lg shadow-sm p-4">
+        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
           <MentionsByPlatform />
         </div>
-        <div className="w-full h-[400px] bg-white rounded-lg shadow-sm p-4">
+        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
           <DailyMentionsTrend />
         </div>
       </div>
@@ -56,17 +54,11 @@ export default function DashboardPage() {
       <hr />
       <hr />
       <div className="grid grid-cols-2 gap-4">
-        <div className="w-full h-[400px] bg-white rounded-lg shadow-sm p-4">
-          {/* <MentionsByPlatform /> */}
+        <div className="h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
           <HeatmapWithPopup />
         </div>
-        {/* <div className="w-full h-[400px] bg-white rounded-lg shadow-sm p-4">
-          <DailyMentionsTrend />
-        </div> */}
       </div>
-      <div className="w-full h-[400px] bg-white rounded-lg shadow-sm p-4 map-container">
-        {/* <MentionsByPlatform /> */}
-        {/* <ProductSpecificMentions /> */}
+      <div className="map-container h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
         <SyncedChartTable />
       </div>
     </div>
