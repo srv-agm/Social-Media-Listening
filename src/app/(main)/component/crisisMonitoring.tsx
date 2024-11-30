@@ -4,24 +4,19 @@ import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-interface ProductMentionsChartProps {
-  data: { product: string; positive: number; negative: number }[];
+interface CrisisMonitoringChartProps {
+  data: { day: string; mentions: number }[];
 }
 
-const ProductMentionsChart: React.FC<ProductMentionsChartProps> = ({ data }) => {
-  const labels = data.map((item) => item.product);
+const CrisisMonitoringChart: React.FC<CrisisMonitoringChartProps> = ({ data }) => {
+  const labels = data.map((item) => item.day);
 
   const chartData = {
     labels,
     datasets: [
       {
-        label: 'Positive',
-        data: data.map((item) => item.positive),
-        backgroundColor: '#76c7c0', // Green color
-      },
-      {
-        label: 'Negative',
-        data: data.map((item) => item.negative),
+        label: 'Mentions',
+        data: data.map((item) => item.mentions),
         backgroundColor: '#8e91f5', // Purple color
       },
     ],
@@ -35,7 +30,7 @@ const ProductMentionsChart: React.FC<ProductMentionsChartProps> = ({ data }) => 
       },
       title: {
         display: true,
-        text: 'Product-Specific Mentions',
+        text: 'Crisis Monitoring',
       },
     },
     scales: {
@@ -48,4 +43,4 @@ const ProductMentionsChart: React.FC<ProductMentionsChartProps> = ({ data }) => 
   return <Bar data={chartData} options={options} />;
 };
 
-export default ProductMentionsChart;
+export default CrisisMonitoringChart;

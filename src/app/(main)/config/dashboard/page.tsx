@@ -1,18 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
 import MentionsByPlatform from "../../component/graph1";
+import ProductMentionsChart from "../../component/productspecific";
 import OverallSentimentTrends from "../../component/graph2";
 import TotalBrandMentions from "../../component/graph4";
 import PieChart from "../../component/overall";
-import dynamic from 'next/dynamic';
-import SyncedChartTable from "../../component/productspecific";
+import dynamic from "next/dynamic";
+// import SyncedChartTable from "../../component/productspecific";
 import DailyMentionsTrend from "../../component/DailyMentionsTrend";
+import CrisisMonitoringChart from "../../component/crisisMonitoring";
 
 // Dynamically import HeatmapWithPopup with ssr disabled
-const HeatmapWithPopup = dynamic(
-  () => import('../../component/heatmap'),
-  { ssr: false }
-);
+const HeatmapWithPopup = dynamic(() => import("../../component/heatmap"), {
+  ssr: false,
+});
 
 // const platformData = [50, 75, 100, 25, 60];
 const sentimentData = {
@@ -22,6 +23,23 @@ const sentimentData = {
 };
 
 export default function DashboardPage() {
+  const data = [
+    { product: "Product A", positive: 5000, negative: 2500 },
+    { product: "Product B", positive: 3000, negative: 500 },
+    { product: "Product C", positive: 2000, negative: 10000 },
+    { product: "Product D", positive: 4000, negative: 3000 },
+    { product: "Product E", positive: 1500, negative: 4000 },
+  ];
+
+  const dataCrisis = [
+    { day: "Mon", mentions: 300 },
+    { day: "Tue", mentions: 200 },
+    { day: "Wed", mentions: 400 },
+    { day: "Thu", mentions: 250 },
+    { day: "Fri", mentions: 600 },
+    { day: "Sat", mentions: 350 },
+    { day: "Sun", mentions: 450 },
+  ];
   const [mentionsData, setMentionsData] = useState({
     totalMentions: "0",
     growthPercentage: 0,
@@ -39,35 +57,35 @@ export default function DashboardPage() {
   const [sentimentTrendData, setSentimentTrendData] = useState({
     negative: [0, 0, 0, 0, 0, 0, 0],
     neutral: [0, 0, 0, 0, 0, 0, 0],
-    positive: [0, 0, 0, 0, 0, 0, 0]
+    positive: [0, 0, 0, 0, 0, 0, 0],
   });
 
   // Add state for brand and keyword
   const [brandKeyword, setBrandKeyword] = useState({
-    brand: '',
-    keyword: ''
+    brand: "",
+    keyword: "",
   });
 
   // Add new state for platform mentions
   const [platformData, setPlatformData] = useState({
     mentions: [],
-    platforms: []
+    platforms: [],
   });
 
   useEffect(() => {
     // Get stored values
-    const storedBrand = localStorage.getItem('selectedBrand');
-    const storedKeyword = localStorage.getItem('selectedKeyword');
+    const storedBrand = localStorage.getItem("selectedBrand");
+    const storedKeyword = localStorage.getItem("selectedKeyword");
 
     // If no stored values, redirect to config page
     if (!storedBrand || !storedKeyword) {
-      window.location.href = '/config/keyword';
+      window.location.href = "/config/keyword";
       return;
     }
 
     setBrandKeyword({
       brand: storedBrand,
-      keyword: storedKeyword
+      keyword: storedKeyword,
     });
   }, []);
 
@@ -77,16 +95,19 @@ export default function DashboardPage() {
 
     const fetchMentionsData = async () => {
       try {
-        const response = await fetch("https://socialdots-api.mfilterit.net/mentions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+        const response = await fetch(
+          "https://socialdots-api.mfilterit.net/mentions",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              brand: brandKeyword.brand,
+              keyword: brandKeyword.keyword,
+            }),
           },
-          body: JSON.stringify({
-            brand: brandKeyword.brand,
-            keyword: brandKeyword.keyword,
-          }),
-        });
+        );
 
         const data = await response.json();
         setMentionsData(data);
@@ -97,16 +118,19 @@ export default function DashboardPage() {
 
     const fetchSentimentData = async () => {
       try {
-        const response = await fetch("https://socialdots-api.mfilterit.net/sentiments", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+        const response = await fetch(
+          "https://socialdots-api.mfilterit.net/sentiments",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              brand: brandKeyword.brand,
+              keyword: brandKeyword.keyword,
+            }),
           },
-          body: JSON.stringify({
-            brand: brandKeyword.brand,
-            keyword: brandKeyword.keyword,
-          }),
-        });
+        );
 
         const data = await response.json();
         setSentimentData(data.sentiments);
@@ -117,41 +141,47 @@ export default function DashboardPage() {
 
     const fetchSentimentTrendData = async () => {
       try {
-        const response = await fetch('https://socialdots-api.mfilterit.net/sentiment_data', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch(
+          "https://socialdots-api.mfilterit.net/sentiment_data",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              brand: brandKeyword.brand,
+              keyword: brandKeyword.keyword,
+            }),
           },
-          body: JSON.stringify({
-            brand: brandKeyword.brand,
-            keyword: brandKeyword.keyword,
-          })
-        });
-        
+        );
+
         const data = await response.json();
         setSentimentTrendData(data.sentimentData);
       } catch (error) {
-        console.error('Error fetching sentiment trend data:', error);
+        console.error("Error fetching sentiment trend data:", error);
       }
     };
 
     const fetchPlatformMentions = async () => {
       try {
-        const response = await fetch('https://socialdots-api.mfilterit.net/platform_mentions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch(
+          "https://socialdots-api.mfilterit.net/platform_mentions",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              brand: brandKeyword.brand,
+              keyword: brandKeyword.keyword,
+            }),
           },
-          body: JSON.stringify({
-            brand: brandKeyword.brand,
-            keyword: brandKeyword.keyword,
-          })
-        });
-        
+        );
+
         const data = await response.json();
         setPlatformData(data);
       } catch (error) {
-        console.error('Error fetching platform mentions:', error);
+        console.error("Error fetching platform mentions:", error);
       }
     };
 
@@ -160,7 +190,7 @@ export default function DashboardPage() {
       fetchMentionsData(),
       fetchSentimentData(),
       fetchSentimentTrendData(),
-      fetchPlatformMentions()
+      fetchPlatformMentions(),
     ]);
   }, [brandKeyword]); // Dependency on brandKeyword
 
@@ -204,7 +234,10 @@ export default function DashboardPage() {
         </div>
       </div>
       <div className="map-container h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
-        <SyncedChartTable />
+        <ProductMentionsChart data={data} />
+      </div>
+      <div className="map-container h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
+        <CrisisMonitoringChart data={dataCrisis} />
       </div>
     </div>
   );
