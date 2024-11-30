@@ -30,7 +30,7 @@ export default function KeywordPage() {
   const handleInputChange = (id: number, field: 'keyword' | 'brand', value: string) => {
     setRows(
       rows.map((row) =>
-        row.id === id ? { ...row, [field]: value.trim() } : row,
+        row.id === id ? { ...row, [field]: value } : row,
       ),
     );
     setError(null);
@@ -42,15 +42,15 @@ export default function KeywordPage() {
       setError(null);
 
       // Validation
-      const emptyFields = rows.some((row) => !row.keyword || !row.brand);
+      const emptyFields = rows.some((row) => !row.keyword.trim() || !row.brand.trim());
       if (emptyFields) {
         throw new Error("Please fill in all fields");
       }
 
       // Format the payload as per API requirements
       const payload = rows.map(row => ({
-        brand: row.brand,
-        keywords: row.keyword
+        brand: row.brand.trim(),
+        keywords: row.keyword.trim()
       }));
 
       const response = await fetch('https://socialdots-api.mfilterit.net/config', {
@@ -67,6 +67,9 @@ export default function KeywordPage() {
 
       const data = await response.json();
       toast.success('Configuration saved successfully');
+      
+      // Clear the form after successful submission
+      setRows([{ id: Date.now(), keyword: "", brand: "" }]);
       
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An error occurred";
