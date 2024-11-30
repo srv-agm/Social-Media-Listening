@@ -97,3 +97,334 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.App {
+  text-align: center;
+  margin-top: 50px;
+  font-family: Arial, sans-serif;
+}
+
+.login-form {
+  display: inline-block;
+  text-align: left;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+.App {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.logout {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.keyword-form {
+  margin: 20px auto;
+  max-width: 500px;
+}
+
+.keyword-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.add-btn,
+.remove-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  font-size: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.add-btn:hover,
+.remove-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.keyword-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #333;
+}
+
+
+
+.total-brand-mentions {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.total-brand-mentions p {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+
+.overall-sentiment-score {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.mentions-by-platform {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.overall-sentiment-trends {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+
+.crisis-monitoring {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.crisis-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.crisis-table th,
+.crisis-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+
+.trending-themes-keywords {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.trending-themes-keywords table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.trending-themes-keywords th,
+.trending-themes-keywords td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+
+.product-specific-mentions {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.product-specific-mentions table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.product-specific-mentions th,
+.product-specific-mentions td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+
+/* Container styling */
+.dropdown-container {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  width: 300px;
+}
+
+/* Label styling */
+.dropdown-label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* Dropdown styling */
+.dropdown {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Selected value styling */
+.selected-value {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+
+/* Container for the dropdown */
+.brand-selector-container {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  width: 300px;
+}
+
+/* Label styling */
+.brand-selector-label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* Dropdown styling */
+.brand-selector-dropdown {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Selected value display */
+.brand-selector-value {
+  margin-top: 10px;
+  font-size: 14px;
+}
