@@ -62,6 +62,12 @@ const menu: MenuItem[] = [
         subMenu: [],
         route: "/config/dashboard",
       },
+      {
+        title: "Incident Report",
+        icon: "",
+        subMenu: [],
+        route: "/config/report",
+      },
       // {
       //   title: "Campaign Optimisation",
       //   icon: "",
