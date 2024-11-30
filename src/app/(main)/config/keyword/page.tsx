@@ -1,32 +1,36 @@
 "use client";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
-interface Keyword {
+interface ConfigRow {
   id: number;
-  value: string;
+  keyword: string;
+  brand: string;
 }
 
 export default function KeywordPage() {
-  const [keywords, setKeywords] = useState<Keyword[]>([{ id: 1, value: "" }]);
+  const [rows, setRows] = useState<ConfigRow[]>([
+    { id: 1, keyword: "", brand: "" }
+  ]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const addKeyword = () => {
-    setKeywords([...keywords, { id: Date.now(), value: "" }]);
+  const addRow = () => {
+    setRows([...rows, { id: Date.now(), keyword: "", brand: "" }]);
     setError(null);
   };
 
-  const removeKeyword = (id: number) => {
-    if (keywords.length > 1) {
-      setKeywords(keywords.filter((keyword) => keyword.id !== id));
+  const removeRow = (id: number) => {
+    if (rows.length > 1) {
+      setRows(rows.filter((row) => row.id !== id));
       setError(null);
     }
   };
 
-  const handleInputChange = (id: number, value: string) => {
-    setKeywords(
-      keywords.map((keyword) =>
-        keyword.id === id ? { ...keyword, value: value.trim() } : keyword,
+  const handleInputChange = (id: number, field: 'keyword' | 'brand', value: string) => {
+    setRows(
+      rows.map((row) =>
+        row.id === id ? { ...row, [field]: value.trim() } : row,
       ),
     );
     setError(null);
@@ -38,17 +42,36 @@ export default function KeywordPage() {
       setError(null);
 
       // Validation
-      const emptyKeywords = keywords.some((keyword) => !keyword.value);
-      if (emptyKeywords) {
-        throw new Error("Please fill in all keywords");
+      const emptyFields = rows.some((row) => !row.keyword || !row.brand);
+      if (emptyFields) {
+        throw new Error("Please fill in all fields");
       }
 
-      const values = keywords.map((keyword) => keyword.value);
-      console.log("Keywords:", values);
-      // Add your API call here
+      // Format the payload as per API requirements
+      const payload = rows.map(row => ({
+        brand: row.brand,
+        keywords: row.keyword
+      }));
+
+      const response = await fetch('https://socialdots-api.mfilterit.net/config', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      toast.success('Configuration saved successfully');
       
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      const errorMessage = err instanceof Error ? err.message : "An error occurred";
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -56,41 +79,66 @@ export default function KeywordPage() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="mb-6 text-2xl font-bold">Keyword Configuration</h1>
-      <div className="flex flex-col space-y-4">
-        {keywords.map((keyword) => (
-          <div key={keyword.id} className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={addKeyword}
-              className="rounded-md bg-blue-500 px-3 py-1 text-white hover:bg-blue-600 disabled:opacity-50"
-              disabled={isSubmitting}
-            >
-              +
-            </button>
-            <button
-              type="button"
-              onClick={() => removeKeyword(keyword.id)}
-              className="rounded-md bg-red-500 px-3 py-1 text-white hover:bg-red-600 disabled:opacity-50"
-              disabled={keywords.length === 1 || isSubmitting}
-            >
-              -
-            </button>
-            <input
-              type="text"
-              value={keyword.value}
-              onChange={(e) => handleInputChange(keyword.id, e.target.value)}
-              className="flex-1 rounded-md border border-gray-300 px-3 py-1 focus:border-blue-500 focus:outline-none disabled:bg-gray-100"
-              placeholder="Enter keyword"
-              disabled={isSubmitting}
-            />
-          </div>
-        ))}
-        {error && (
-          <div className="rounded-md bg-red-50 p-3 text-sm text-red-600">
-            {error}
-          </div>
-        )}
+      <h1 className="mb-6 text-2xl font-bold">Configuration</h1>
+      
+      <div className="mb-8">
+        {/* Header */}
+        <div className="mb-4 grid grid-cols-[auto_1fr_1fr] gap-4 items-center">
+          <div className="w-20"></div>
+          <h2 className="text-xl font-semibold">Keyword</h2>
+          <h2 className="text-xl font-semibold">Brand</h2>
+        </div>
+
+        {/* Rows */}
+        <div className="flex flex-col space-y-4">
+          {rows.map((row) => (
+            <div key={row.id} className="grid grid-cols-[auto_1fr_1fr] gap-4 items-center">
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={addRow}
+                  className="rounded-md bg-blue-500 px-3 py-1 text-white hover:bg-blue-600 disabled:opacity-50"
+                  disabled={isSubmitting}
+                >
+                  +
+                </button>
+                <button
+                  type="button"
+                  onClick={() => removeRow(row.id)}
+                  className="rounded-md bg-red-500 px-3 py-1 text-white hover:bg-red-600 disabled:opacity-50"
+                  disabled={rows.length === 1 || isSubmitting}
+                >
+                  -
+                </button>
+              </div>
+              <input
+                type="text"
+                value={row.keyword}
+                onChange={(e) => handleInputChange(row.id, 'keyword', e.target.value)}
+                className="flex-1 rounded-md border border-gray-300 px-3 py-1 focus:border-blue-500 focus:outline-none disabled:bg-gray-100"
+                placeholder="Enter keyword"
+                disabled={isSubmitting}
+              />
+              <input
+                type="text"
+                value={row.brand}
+                onChange={(e) => handleInputChange(row.id, 'brand', e.target.value)}
+                className="flex-1 rounded-md border border-gray-300 px-3 py-1 focus:border-blue-500 focus:outline-none disabled:bg-gray-100"
+                placeholder="Enter brand name"
+                disabled={isSubmitting}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {error && (
+        <div className="rounded-md bg-red-50 p-3 text-sm text-red-600">
+          {error}
+        </div>
+      )}
+      
+      <div className="flex justify-center">
         <button
           type="button"
           onClick={handleSubmit}
