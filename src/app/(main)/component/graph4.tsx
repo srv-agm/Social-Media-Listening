@@ -8,6 +8,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 interface TotalBrandMentionsProps {
   totalMentions: number; // Total mentions count
   dailyMentionsData: number[]; // Array of daily mentions data
+  growthPercentage: any; // Array of daily mentions data
 }
 
 const TotalBrandMentions: React.FC<TotalBrandMentionsProps> = ({ totalMentions, dailyMentionsData }) => {
