@@ -1,15 +1,18 @@
 import React from 'react';
+import { Chart as ChartJS, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip, Legend } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
+// Register components
+ChartJS.register(LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip, Legend);
 
 interface SentimentData {
-  positive: number[]; 
-  neutral: number[]; 
-  negative: number[]; 
+  positive: number[];
+  neutral: number[];
+  negative: number[];
 }
 
 interface OverallSentimentTrendsProps {
-  sentimentData: SentimentData; 
+  sentimentData: SentimentData;
 }
 
 const OverallSentimentTrends: React.FC<OverallSentimentTrendsProps> = ({ sentimentData }) => {
@@ -18,19 +21,19 @@ const OverallSentimentTrends: React.FC<OverallSentimentTrendsProps> = ({ sentime
     datasets: [
       {
         label: 'Positive',
-        data: sentimentData.positive, 
+        data: sentimentData.positive,
         borderColor: 'rgba(102, 51, 153, 1)',
         backgroundColor: 'rgba(102, 51, 153, 0.2)',
       },
       {
         label: 'Neutral',
-        data: sentimentData.neutral, 
+        data: sentimentData.neutral,
         borderColor: 'rgba(75, 192, 192, 1)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
       },
       {
         label: 'Negative',
-        data: sentimentData.negative, 
+        data: sentimentData.negative,
         borderColor: 'rgba(255, 159, 64, 1)',
         backgroundColor: 'rgba(255, 159, 64, 0.2)',
       },
