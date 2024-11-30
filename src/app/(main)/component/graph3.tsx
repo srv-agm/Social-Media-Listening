@@ -4,9 +4,9 @@ import { Bar } from 'react-chartjs-2';
 
 interface ProductData {
   name: string; 
-  totalMentions: number; 
-  positiveMentions: number; 
-  negativeMentions: number; 
+  totalMentions: any; 
+  positiveMentions: any; 
+  negativeMentions: any; 
   topIssue: string; 
 }
 

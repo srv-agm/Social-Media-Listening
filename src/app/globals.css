@@ -5,6 +5,7 @@
 .textFont {
   font-family: Arial, Helvetica, sans-serif;
 }
+
 body {
   color: var(--foreground);
   background: var(--background);
@@ -15,17 +16,22 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
   .scrollbar {
     scrollbar-width: thick;
     transition: all 150ms ease-in-out;
+
     &::-webkit-scrollbar {
       width: 0.5rem;
       padding-bottom: 0%;
-      height: 0.5rem; /* height of horizontal scrollbar ← You're missing this */
+      height: 0.5rem;
+      /* height of horizontal scrollbar ← You're missing this */
     }
+
     &::-webkit-scrollbar-track {
       box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
     }
+
     &::-webkit-scrollbar-thumb {
       background-color: lightgray;
       border-radius: 10px;
@@ -61,6 +67,7 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -93,6 +100,7 @@ body {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -132,10 +140,12 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
 .App {
   text-align: center;
   margin-top: 50px;
@@ -223,10 +233,12 @@ label {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
 .App {
   text-align: center;
   margin-top: 50px;
@@ -279,6 +291,7 @@ label {
 .submit-button:hover {
   background-color: #0056b3;
 }
+
 .App {
   font-family: Arial, sans-serif;
   margin: 20px;
@@ -518,4 +531,13 @@ label {
 .brand-selector-value {
   margin-top: 10px;
   font-size: 14px;
+}
+
+.map-container {
+  width: 100%;
+  height: 500px;
+  /* You can adjust this to suit your design */
+  position: relative;
+  overflow: hidden;
+  /* Ensure it doesn't overflow */
 }
