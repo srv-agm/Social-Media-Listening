@@ -90,6 +90,7 @@ export default function DashboardPage() {
   const [platformData, setPlatformData] = useState({
     mentions: [],
     platforms: [],
+    categories: ['Posts', 'Comments', 'Shares']
   });
 
   // Add new state for product category data
