@@ -44,7 +44,7 @@ const columns: any[] = [
 const Secondcolumns: any[] = [
   { title: "Brand", key: "brand" },
   { title: "Name", key: "name" },
-  { title: "Comment Category", key: "namecomment_category" },
+  { title: "Comment Category", key: "comment_category" },
   { title: "Comment Datetime", key: "comment_datetime" },
   { title: "Comment Sentiment", key: "comment_sentiment" },
   { title: "Comments", key: "comments" },
