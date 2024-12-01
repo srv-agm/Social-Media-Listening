@@ -32,9 +32,9 @@ const PieChart: React.FC<PieChartProps> = ({ sentimentData }) => {
                     sentimentData.neutral
                 ],
                 backgroundColor: [
-                    '#007bff', // Blue
-                    '#ffcc00', // Yellow
-                    '#00c49f', // Green
+                    'green', // Blue
+                    'red',
+                   'yellow' , // Green
                 ],
                 borderColor: [
                     '#ffffff',
