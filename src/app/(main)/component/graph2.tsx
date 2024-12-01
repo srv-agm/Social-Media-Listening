@@ -20,27 +20,27 @@ const OverallSentimentTrends: React.FC<SentimentTrendProps> = ({ sentimentData }
       {
         label: 'Positive',
         data: sentimentData.positive,
-        borderColor: 'green',
-        backgroundColor: 'green',
+        borderColor: '#007bff',
+        backgroundColor: 'rgba(0, 123, 255, 0.5)',
       },
       {
         label: 'Neutral',
         data: sentimentData.neutral,
-        borderColor: 'yellow',
-        backgroundColor: 'yellow',
+        borderColor: '#00c49f',
+        backgroundColor: 'rgba(0, 196, 159, 0.5)',
       },
       {
         label: 'Negative',
         data: sentimentData.negative,
-        borderColor: 'red',
-        backgroundColor: 'red',
+        borderColor: '#ffcc00',
+        backgroundColor: 'rgba(255, 204, 0, 0.5)',
       },
     ],
   };
 
   return (
     <div className="overall-sentiment-trends">
-      <h2>Sentiment Trends</h2>
+      <h2>Overall Sentiment Trends</h2>
       <Line data={data} />
     </div>
   );
