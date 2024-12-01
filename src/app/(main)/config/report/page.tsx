@@ -1,33 +1,37 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import toast from "react-hot-toast";
 import ResizableTable from "@/components/mf/TableComponent";
 
 interface ResponseData {
   data: any[];
-  brands: any[];
 }
 
 const columns: any[] = [
-  { title: "Rank", key: "search_rank" },
-  { title: "Listing Type", key: "organic_sponsored_brand_sponsored" },
+  { title: "Brand", key: "brand" },
+  { title: "Name", key: "name" },
+  { title: "Username", key: "user_name" },
+  { title: "Platform", key: "platform" },
+  { title: "Category", key: "post_category" },
+  { title: "Sentiment", key: "post_sentiment" },
   {
-    title: "Product Image",
-    key: "image_url",
+    title: "Post Date",
+    key: "post_date",
+    render: (data: any) => new Date(data.post_date).toLocaleString(),
+  },
+  {
+    title: "Description",
+    key: "post_description",
     render: (data: any) => (
-      <img
-        src={data.image_url}
-        alt="Product"
-        className="h-16 w-16 rounded-md"
-      />
+      <div className="max-w-md truncate">{data.post_description}</div>
     ),
   },
   {
-    title: "Product URL",
-    key: "product_url",
+    title: "Post URL",
+    key: "post_url",
     render: (data: any) => (
       <a
-        href={data.product_url}
+        href={data.post_url}
         target="_blank"
         rel="noopener noreferrer"
         className="text-blue-500 underline"
@@ -36,214 +40,135 @@ const columns: any[] = [
       </a>
     ),
   },
-  { title: "Title", key: "title_local" },
-  { title: "Platform", key: "platform" },
-  { title: "ASP", key: "asp" },
-  { title: "MRP", key: "mrp" },
 ];
-
-const columnsBrand: any[] = [
+const Secondcolumns: any[] = [
   { title: "Brand", key: "brand" },
-  { title: "Organic Rank", key: "organic" },
-  { title: "Organic Avg Rank", key: "organic_avg_rank" },
-  { title: "Organic Share", key: "organic_share" },
-  { title: "Sponsored Rank", key: "sponsored" },
-  { title: "Sponsored Avg Rank", key: "sponsored_avg_rank" },
-  { title: "Sponsored Share", key: "sponsored_share" },
-  { title: "Total Avg Rank", key: "total_avg_rank" },
-  // { title: "Rank", key: "search_rank" }
-  // { title: "Rank", key: "search_rank" }
+  { title: "Name", key: "name" },
+  { title: "Comment Category", key: "namecomment_category" },
+  { title: "Comment Datetime", key: "comment_datetime" },
+  { title: "Comment Sentiment", key: "comment_sentiment" },
+  { title: "Comments", key: "comments" },
+  { title: "Hashtags", key: "hashtags" },
+  { title: "Inserted Date", key: "inserted_date" },
+  { title: "Keyword", key: "keyword" },
+  { title: "Platform", key: "platform" },
+  // { title: "Post Url", key: "post_url" },
+  {
+    title: "Post URL",
+    key: "post_url",
+    render: (data: any) => (
+      <a
+        href={data.post_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-500 underline"
+      >
+        🔗
+      </a>
+    ),
+  },
 ];
 
 export default function DashboardPage() {
-  const [keyword, setKeyword] = useState("");
-  const [platform, setPlatform] = useState("");
-  const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
   const [responseData, setResponseData] = useState<ResponseData | null>(null);
+  const [secondresponseData, secondsetResponseData] =
+    useState<ResponseData | null>(null);
 
-  //   const handleSubmit = async () => {
-  //     // console.log(responseData , "asdasdasdadasdad");
+  console.log(responseData, "ajdskajsdkajsbdkjabs");
 
-  //     if (!keyword || !platform) {
-  //       toast.error("Please select both keyword and platform");
-  //       return;
-  //     }
+  // Add useEffect to fetch data when component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          "https://socialdots-api.mfilterit.net/api/fetch_post_details",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              brand: "zomato",
+              keyword: "zomato",
+            }),
+          },
+        );
 
-  //     setLoading(true);
-  //     try {
-  //       const response = await fetch(
-  //         "https://ecomm-realtime-api.mfilterit.net/sos_keywords",
-  //         {
-  //           method: "POST",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //           body: JSON.stringify({
-  //             data: [
-  //               {
-  //                 keyword: keyword,
-  //                 platform: platform,
-  //               },
-  //             ],
-  //           }),
-  //         },
-  //       );
+        if (response.ok) {
+          const data = await response.json();
+          setResponseData(data);
+          console.log("API Response:", data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         setResponseData(data);
-  //         toast.success("Submitted successfully!");
-  //         setKeyword("");
-  //         setPlatform("");
-  //         setLocation("");
-  //       } else {
-  //         toast.error("Something went wrong. Please try again.");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //       toast.error("Failed to submit. Please try again.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+    const secondfetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          "https://socialdots-api.mfilterit.net/api/fetch_comment_details",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              brand: "zomato",
+              keyword: "zomato",
+            }),
+          },
+        );
 
-  console.log(responseData, "asdasdasd");
+        if (response.ok) {
+          const data = await response.json();
+          secondsetResponseData(data);
+          console.log("API Response:", data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+    secondfetchData();
+  }, []);
 
   return (
-    // <div className="container mx-auto p-4">
-    //   <h1 className="mb-6 text-2xl font-bold">SOS</h1>
-
-    //   {/* Dropdown container */}
-    //   <div className="mb-6 flex gap-4">
-    //     {/* Keyword Input */}
-    //     <input
-    //       type="text"
-    //       placeholder="Enter Keyword"
-    //       className="w-1/3 rounded-md border p-2"
-    //       value={keyword}
-    //       onChange={(e) => setKeyword(e.target.value)}
-    //     />
-    //     <select
-    //       className="w-1/3 rounded-md border p-2"
-    //       value={platform}
-    //       onChange={(e) => setPlatform(e.target.value)}
-    //     >
-    //       <option value="">Select Platform</option>
-    //       <option value="amazon_app">Amazon</option>
-    //       <option value="flipkart_app">Flipkart</option>
-    //       <option value="bigbasket_app">Big Basket</option>
-    //       <option value="zepto_app">Zepto</option>
-    //     </select>
-    //     <select className="w-1/3 rounded-md border p-2">
-    //       <option value="mumbai">Mumbai</option>
-    //       <option value="delhi">Delhi</option>
-    //       <option value="bengaluru">Bengaluru</option>
-    //       <option value="hyderabad">Hyderabad</option>
-    //       <option value="ahmedabad">Ahmedabad</option>
-    //       <option value="chennai">Chennai</option>
-    //       <option value="kolkata">Kolkata</option>
-    //       <option value="pune">Pune</option>
-    //       <option value="jaipur">Jaipur</option>
-    //       <option value="lucknow">Lucknow</option>
-    //       <option value="kanpur">Kanpur</option>
-    //       <option value="nagpur">Nagpur</option>
-    //       <option value="indore">Indore</option>
-    //       <option value="thane">Thane</option>
-    //       <option value="bhopal">Bhopal</option>
-    //       <option value="visakhapatnam">Visakhapatnam</option>
-    //       <option value="pimpri-chinchwad">Pimpri-Chinchwad</option>
-    //       <option value="patna">Patna</option>
-    //       <option value="vadodara">Vadodara</option>
-    //       <option value="ghaziabad">Ghaziabad</option>
-    //       <option value="ludhiana">Ludhiana</option>
-    //       <option value="agra">Agra</option>
-    //       <option value="nashik">Nashik</option>
-    //       <option value="faridabad">Faridabad</option>
-    //       <option value="meerut">Meerut</option>
-    //       <option value="rajkot">Rajkot</option>
-    //       <option value="kalyan-dombivli">Kalyan-Dombivli</option>
-    //       <option value="vasai-virar">Vasai-Virar</option>
-    //       <option value="varanasi">Varanasi</option>
-    //       <option value="srinagar">Srinagar</option>
-    //       <option value="aurangabad">Aurangabad</option>
-    //       <option value="dhanbad">Dhanbad</option>
-    //       <option value="amritsar">Amritsar</option>
-    //       <option value="navi-mumbai">Navi Mumbai</option>
-    //       <option value="allahabad">Allahabad</option>
-    //       <option value="ranchi">Ranchi</option>
-    //       <option value="howrah">Howrah</option>
-    //       <option value="coimbatore">Coimbatore</option>
-    //       <option value="jabalpur">Jabalpur</option>
-    //       <option value="gwalior">Gwalior</option>
-    //       <option value="vijayawada">Vijayawada</option>
-    //       <option value="jodhpur">Jodhpur</option>
-    //       <option value="madurai">Madurai</option>
-    //       <option value="raipur">Raipur</option>
-    //       <option value="kota">Kota</option>
-    //       <option value="guwahati">Guwahati</option>
-    //       <option value="chandigarh">Chandigarh</option>
-    //       <option value="solapur">Solapur</option>
-    //       <option value="hubballi-dharwad">Hubballi-Dharwad</option>
-    //     </select>
-    //   </div>
-
-    //   <div className="flex justify-center">
-    //     <button
-    //       onClick={handleSubmit}
-    //       disabled={loading}
-    //       className={`rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 ${
-    //         loading ? "cursor-not-allowed opacity-50" : ""
-    //       }`}
-    //     >
-    //       {loading ? "Processing..." : "Process"}
-    //     </button>
-    //   </div>
-
-    //   {responseData && !loading && (
-    //     <div className="mt-4 rounded border bg-gray-100 p-4">
-    //       <h2 className="mb-4 text-xl font-semibold text-center">Top 3 Brands</h2>
-    //       <div className="h-[300px]">
-    //         <ResizableTable
-    //           columns={columnsBrand}
-    //           data={responseData?.brands ?? []}
-    //           isLoading={false}
-    //           headerColor="#DCDCDC"
-    //           isSearchable
-    //           isSelectable
-    //           showPagination={false}
-    //         />
-    //       </div>
-    //     </div>
-    //   )}
-    //   <div className="h-[10px]"></div>
-    //   {responseData && !loading && (
-    //     <div className="mt-4 rounded border bg-gray-100 p-4">
-    //       <ResizableTable
-    //         columns={columns}
-    //         data={responseData?.data ?? []}
-    //         isLoading={false}
-    //         headerColor="#DCDCDC"
-    //         isSearchable
-    //         isSelectable
-    //         isPaginated={false}
-    //       />
-    //     </div>
-    //   )}
-    // </div>
-    <div className="mt-4 rounded border bg-gray-100 p-4">
-      <h2 className="mb-4 text-center text-xl font-semibold">Top 3 Brands</h2>
-      <div className="h-[300px]">
+    <>
+      <div className="mt-4 rounded border bg-gray-100 p-4">
+        <h2 className="mb-4 text-center text-xl font-semibold">
+          Social Media Posts
+        </h2>
         <ResizableTable
-          columns={columnsBrand}
-          data={responseData?.brands ?? []}
-          isLoading={false}
+          columns={columns}
+          data={responseData?.data ?? []}
+          isLoading={loading}
           headerColor="#DCDCDC"
           isSearchable
           isSelectable
-        //   showPagination={false}
         />
       </div>
-    </div>
+      <div className="mt-4 rounded border bg-gray-100 p-4">
+        <h2 className="mb-4 text-center text-xl font-semibold">
+          Social Media Comments
+        </h2>
+        <ResizableTable
+          columns={Secondcolumns}
+          data={secondresponseData?.data ?? []}
+          isLoading={loading}
+          headerColor="#DCDCDC"
+          isSearchable
+          isSelectable
+        />
+      </div>
+    </>
   );
 }
