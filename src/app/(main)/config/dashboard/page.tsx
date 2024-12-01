@@ -314,7 +314,7 @@ export default function DashboardPage() {
           />
         </div>
         <div className="relative flex-col  h-[400px] w-full items-center justify-center rounded-lg bg-white p-4 shadow-sm">
-
+        <h4 style={{textAlign:"center"}}>Sentiment Score</h4>
           <div className="absolute right-2 top-2  ">
         
             <InfoTooltip text="Percentage of positive, negative, and neutral mentions" />
