@@ -43,8 +43,8 @@ export default function KeywordPage() {
       const firstRow = rows[0];
 
       // Store in localStorage
-      localStorage.setItem("selectedBrand", firstRow.brand.trim());
-      localStorage.setItem("selectedKeyword", firstRow.keyword.trim());
+      localStorage.setItem("selectedBrand", 'orange');
+      localStorage.setItem("selectedKeyword", 'orange');
 
       // Format the payload as per API requirements
       const payload = rows.map((row) => ({

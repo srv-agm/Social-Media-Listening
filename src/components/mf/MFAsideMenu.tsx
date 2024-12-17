@@ -50,12 +50,12 @@ const menu: MenuItem[] = [
     title: "Social Media Listening",
     icon: <Globe size={18} />,
     subMenu: [
-      {
-        title: "Keyword",
-        icon: "",
-        subMenu: [],
-        route: "/config/keyword",
-      },
+      // {
+      //   title: "Keyword",
+      //   icon: "",
+      //   subMenu: [],
+      //   route: "/config/keyword",
+      // },
       {
         title: "Dashboard",
         icon: "",

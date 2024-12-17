@@ -90,8 +90,8 @@ export default function DashboardPage() {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              brand: "zomato",
-              keyword: "zomato",
+              brand: "orange",
+              keyword: "orange",
             }),
           },
         );
@@ -119,8 +119,8 @@ export default function DashboardPage() {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              brand: "zomato",
-              keyword: "zomato",
+              brand: "orange",
+              keyword: "orange",
             }),
           },
         );
@@ -156,7 +156,7 @@ export default function DashboardPage() {
           isSelectable
         />
       </div>
-      <div className="mt-4 rounded border bg-gray-100 p-4">
+      {/* <div className="mt-4 rounded border bg-gray-100 p-4">
         <h2 className="mb-4 text-center text-xl font-semibold">
           Social Media Comments
         </h2>
@@ -168,7 +168,7 @@ export default function DashboardPage() {
           isSearchable
           isSelectable
         />
-      </div>
+      </div> */}
     </>
   );
 }

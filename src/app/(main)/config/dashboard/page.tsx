@@ -111,14 +111,14 @@ export default function DashboardPage() {
     const storedKeyword = localStorage.getItem("selectedKeyword");
 
     // If no stored values, redirect to config page
-    if (!storedBrand || !storedKeyword) {
-      window.location.href = "/config/keyword";
-      return;
-    }
+    // if (!storedBrand || !storedKeyword) {
+    //   window.location.href = "/config/dashboard";
+    //   return;
+    // }
 
     setBrandKeyword({
-      brand: storedBrand,
-      keyword: storedKeyword,
+      brand: 'orange',
+      keyword: 'orange',
     });
   }, []);
 
