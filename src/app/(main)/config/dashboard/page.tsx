@@ -12,9 +12,9 @@ import CrisisMonitoringChart from "../../component/crisisMonitoring";
 import { InfoIcon } from "lucide-react";
 
 // Dynamically import HeatmapWithPopup with ssr disabled
-const HeatmapWithPopup = dynamic(() => import("../../component/heatmap"), {
-  ssr: false,
-});
+// const HeatmapWithPopup = dynamic(() => import("../../component/heatmap"), {
+//   ssr: false,
+// });
 
 // const platformData = [50, 75, 100, 25, 60];
 const sentimentData = {
@@ -354,14 +354,6 @@ export default function DashboardPage() {
             <InfoTooltip text="Watches for repeated keywords that might indicate a problem" />
           </div>
           <CrisisMonitoringChart data={crisisData} />
-        </div>
-      </div>
-      <div className="mb-10 w-full">
-        <div className="relative h-[400px] w-full rounded-lg bg-white p-4 shadow-sm">
-          <div className="absolute right-2 top-2">
-            <InfoTooltip text="Areas where the brand is getting the most attention" />
-          </div>
-          <HeatmapWithPopup />
         </div>
       </div>
     </div>
